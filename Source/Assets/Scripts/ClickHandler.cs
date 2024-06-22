@@ -14,7 +14,8 @@ public class ClickHandler : MonoBehaviour
     [Header("UI")]
     [SerializeField]
     private UImanager uimanager;
-    
+    [SerializeField]
+    private LineRenderer linedrawer;
     [Header("Selected Object")]
     [SerializeField] private List<GameObject> Selected = new List<GameObject>();
     [SerializeField] private List<Vector3> waypoints = new List<Vector3>();
@@ -67,7 +68,6 @@ public class ClickHandler : MonoBehaviour
                     }
                     else if (hit.transform.CompareTag("Troop"))
                     {
-
                         TroopScript troop = hit.transform.GetComponent<TroopScript>();
                         selectedOwner = troop.owner.ownerID;
                         Selected.Add(hit.transform.gameObject);
@@ -77,11 +77,14 @@ public class ClickHandler : MonoBehaviour
                             uimanager.UpdateTroopUI(troop, Selected.Count);
                             //troop.owner.selected = true;
                             SelectingWaypoint = true;
+                            linedrawer.positionCount++;
+                            linedrawer.SetPosition(0, hit.transform.position);
                         }
                     }
                 }
                 else if(SelectingWaypoint)
                 {
+                    
                     if (IsMouseOnUI())
                     {
                         return;
@@ -89,6 +92,8 @@ public class ClickHandler : MonoBehaviour
                     else if (hit.transform.CompareTag("City"))
                     {
                         waypoints.Add(new Vector3(hit.point.x, 0, hit.point.z));
+                        linedrawer.positionCount += 1;
+                        linedrawer.SetPosition(waypoints.Count, new Vector3(waypoints[waypoints.Count - 1].x, 0.1f, waypoints[waypoints.Count - 1].z));
                         if (!Input.GetKey(KeyCode.LeftShift))
                         {
                             SendTroopWP();
@@ -113,10 +118,14 @@ public class ClickHandler : MonoBehaviour
                         else if (Input.GetKey(KeyCode.LeftShift))
                         {
                             waypoints.Add(new Vector3(hit.point.x, 0, hit.point.z));
+                            linedrawer.positionCount+=1;
+                            linedrawer.SetPosition(waypoints.Count, new Vector3(waypoints[waypoints.Count-1].x, 0.1f, waypoints[waypoints.Count - 1].z));
                         }
                         else
                         {
                             waypoints.Add(new Vector3(hit.point.x, 0, hit.point.z));
+                            linedrawer.positionCount++;
+                            linedrawer.SetPosition(waypoints.Count, hit.transform.position);
                             SendTroopWP();
                             ClearSelection();
                         }
@@ -125,6 +134,8 @@ public class ClickHandler : MonoBehaviour
                     else if (hit.transform.CompareTag("Map"))
                     {
                         waypoints.Add(new Vector3(hit.point.x, 0, hit.point.z));
+                        linedrawer.positionCount += 1;
+                        linedrawer.SetPosition(waypoints.Count, new Vector3(waypoints[waypoints.Count - 1].x, 0.1f, waypoints[waypoints.Count - 1].z));
                         if (!Input.GetKey(KeyCode.LeftShift))
                         {
                             SendTroopWP();
@@ -228,6 +239,7 @@ public class ClickHandler : MonoBehaviour
         selectedOwner = "";
         Selected.Clear();
         waypoints.Clear();
+        linedrawer.positionCount = 0;
     }
 
     //private void UpdateTroopUI(string name, string owner, float HP, float fightingcap, int selectedcount,bool showstat )

@@ -25,7 +25,7 @@ public class TroopScript : MonoBehaviour
     public List<TroopScript> combatlockers = new List<TroopScript>();
     public List<CityScript> CapturingCity = new List<CityScript>();
 
-    public Renderer modelrenderer;
+    public Renderer modelrenderer,boatrenderer;
     [SerializeField] private Slider HPbar;
     [SerializeField] private ParticleSystem emitter;
 
@@ -188,6 +188,7 @@ public class TroopScript : MonoBehaviour
     public void SetColor(Color color)
     {
         modelrenderer.material.color = color;
+        if (boatrenderer != null) boatrenderer.material.color = color;
     }
 
     private void OnCollisionEnter(Collision other)

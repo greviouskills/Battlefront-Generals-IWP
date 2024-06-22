@@ -161,7 +161,7 @@ public class CityScript : MonoBehaviour
             if (HP <= 0)
             {
                 HP = population / 100;
-                manager.ChangeCityOwner(this.gameObject.name, troop.owner.ownerID, troop.owner.name, new Vector3(troop.modelrenderer.material.color.r, troop.modelrenderer.material.color.g,troop.modelrenderer.material.color.b));
+                manager.ChangeCityOwner(this.gameObject.name, troop.owner.ownerID, troop.owner.ownername, new Vector3(troop.modelrenderer.material.color.r, troop.modelrenderer.material.color.g,troop.modelrenderer.material.color.b));
                 Combatants.Clear();
                 trainingqueue.Clear();
             }
