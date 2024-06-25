@@ -10,10 +10,15 @@ public class TroopSync : MonoBehaviour
     public List<TroopScript> prefabs = new List<TroopScript>();
     private List<TroopScript> toremove = new List<TroopScript>();
     [SerializeField] private Transform troopparent;
+    //[SerializeField] private Renderer mat;
+    [SerializeField] private TerrainRecorder terrain;
+
+    
     private int IDcounter = 0;
     // Start is called before the first frame update
     void Start()
     {
+        //map = mat.material.GetTexture("_MainTex") as Texture2D;
         photonView = this.GetComponentInParent<PhotonView>();
     }
 
@@ -62,6 +67,8 @@ public class TroopSync : MonoBehaviour
                 ts.syncer = this;
                 ts.owner.ID = troop + ownername + IDcounter;
                 ts.SetColor(new Color(color.x, color.y, color.z));
+                WaterMovement wm = Spawn.GetComponent<WaterMovement>();
+                wm.terrain = terrain;
                 troops.Add(Spawn.GetComponent<TroopScript>());
             }
         }

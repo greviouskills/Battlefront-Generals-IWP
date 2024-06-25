@@ -27,14 +27,14 @@ public class CameraMovement : MonoBehaviour
         
         if (Input.GetKey(KeyCode.W))
         {
-            if(transform.position.z < defaultlimitY)
+            if(transform.position.z < defaultlimitX)
             {
                 transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + scrollspeed);
             }
         }
         if (Input.GetKey(KeyCode.S))
         {
-            if (transform.position.z > -(defaultlimitY))
+            if (transform.position.z > -(defaultlimitX))
             {
                 transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - scrollspeed);
             }

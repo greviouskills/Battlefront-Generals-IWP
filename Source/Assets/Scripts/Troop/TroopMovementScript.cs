@@ -8,10 +8,14 @@ public class TroopMovementScript : MonoBehaviour
     public float movespeed;
     public bool canmove = true;
     [SerializeField] private Transform model;
+    [SerializeField] private WaterMovement watermover;
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (watermover != null)
+        {
+            StartCoroutine(watercheck());
+        }
     }
 
     // Update is called once per frame
@@ -51,6 +55,18 @@ public class TroopMovementScript : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    private IEnumerator watercheck()
+    {
+        while (true)
+        {
+            if (Waypoints.Count > 0)
+            {
+                watermover.CheckWater();
+            }
+            yield return new WaitForSeconds(0.1f);
         }
     }
 }
