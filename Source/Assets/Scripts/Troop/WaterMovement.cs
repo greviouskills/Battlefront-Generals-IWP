@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class WaterMovement : MonoBehaviour
 {
-    [SerializeField] private Renderer model;
+    [SerializeField] private GameObject troop,boat;
+    //[SerializeField] private Renderer model;
     [SerializeField] private TroopMovementScript troopmover;
     [SerializeField] private float WaterSpeed;
     public TerrainRecorder terrain;
@@ -24,11 +25,17 @@ public class WaterMovement : MonoBehaviour
 
     public void CheckWater()
     {
-        model.material.color = terrain.GetColor(new Vector2(transform.position.x, transform.position.z));
-        //if(terrain.CheckForWater(new Vector2(transform.position.x, transform.position.z)))
-        //{
+        //model.material.color = terrain.GetColor(new Vector2(transform.position.x, transform.position.z));
+        if (terrain.CheckForWater(new Vector2(transform.position.x, transform.position.z)))
+        {
+            boat.SetActive(true);
+            troop.SetActive(false);
+        }
+        else
+        {
+            troop.SetActive(true);
+            boat.SetActive(false);
+        }
 
-        //}
-        
     }
 }

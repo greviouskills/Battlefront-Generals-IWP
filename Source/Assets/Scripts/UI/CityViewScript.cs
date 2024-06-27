@@ -10,8 +10,9 @@ public class CityViewScript : MonoBehaviour
     private CityScript targetcity;
 
     [SerializeField] private Text Population, Cityname, Owner;
-    [SerializeField] private GameObject Button;
+    [SerializeField] private GameObject Button,progress;
     [SerializeField] private TroopBuilderPanel builderpanel;
+    [SerializeField] private Slider buildprogress;
     void Start()
     {
         
@@ -20,12 +21,13 @@ public class CityViewScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        buildprogress.value = targetcity.buildprogress;
     }
 
     public void SetUi(CityScript city, bool CanSpy, bool isowner)
     {
         Button.SetActive(false);
+        progress.SetActive(false);
         targetcity = city;
 
         foreach (Transform child in UiParent)
@@ -46,6 +48,7 @@ public class CityViewScript : MonoBehaviour
         if (isowner)
         {
             Button.SetActive(true);
+            progress.SetActive(true);
             foreach (string building in city.Constructing)
             {
                 GameObject obj = Instantiate(Bar1, UiParent);

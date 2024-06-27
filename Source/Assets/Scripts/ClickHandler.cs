@@ -173,7 +173,14 @@ public class ClickHandler : MonoBehaviour
                         {
                             ClearSelection();
                             Selected.Add(hit.transform.gameObject);
-                            uimanager.UpdateCityUI(Selected.Count, city, false, CanSpy);
+                            if (selectedOwner == playerID)
+                            {
+                                uimanager.UpdateCityUI(Selected.Count, city, true, CanSpy);
+                            }
+                            else
+                            {
+                                uimanager.UpdateCityUI(Selected.Count, city, false, CanSpy);
+                            }
                         }
                     }
                     else
@@ -184,11 +191,15 @@ public class ClickHandler : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             ClearSelection();
         }
 
+        if (SelectingWaypoint)
+        {
+            linedrawer.SetPosition(0, Selected[0].transform.position);
+        }
         //debug purposes
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {

@@ -27,6 +27,9 @@ public class CityScript : MonoBehaviour
     public List<string> Constructed = new List<string>();
     public List<string> Constructable = new List<string>();
     public List<TroopTrain> trainingqueue = new List<TroopTrain>();
+
+    public float troopprogress;
+    public float buildprogress;
     private bool buildingconstruction;
     private bool trainingtroop;
     public TroopSync troopsync;
@@ -98,6 +101,7 @@ public class CityScript : MonoBehaviour
     public void ChangeCityOwnership(string ID,string name ,Color color)
     {
         this.GetComponent<Renderer>().material.color = color;
+        Combatants.Clear();
         owner.ownerID = ID;
         owner.ownername = name;
         StopCoroutine(Construct());
@@ -224,9 +228,14 @@ public class CityScript : MonoBehaviour
 
     IEnumerator Train()
     {
-        
+        troopprogress = 0;
         trainingtroop = true;
-        yield return new WaitForSeconds(trainingqueue[0].Wait);
+        for(int i = 0; i <= trainingqueue[0].Wait; i++)
+        {
+            yield return new WaitForSeconds(trainingqueue[0].Wait);
+            troopprogress = i / trainingqueue[0].Wait;
+        }
+        
         troopsync.SendSpawnTroops(trainingqueue[0].Troop, owner.ownername, owner.ownerID, this.transform.position);
         trainingqueue.RemoveAt(0);
         

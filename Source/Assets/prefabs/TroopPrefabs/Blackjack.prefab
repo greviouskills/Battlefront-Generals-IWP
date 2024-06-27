@@ -433,7 +433,7 @@ GameObject:
   - component: {fileID: 5351517835767046383}
   - component: {fileID: 5351517835767046377}
   - component: {fileID: 5351517835767046376}
-  - component: {fileID: 6389207634371087775}
+  - component: {fileID: -4964561174634001099}
   m_Layer: 0
   m_Name: Blackjack
   m_TagString: Troop
@@ -524,7 +524,7 @@ MonoBehaviour:
   movespeed: 35
   canmove: 1
   model: {fileID: 703634734197896351}
-  watermover: {fileID: 6389207634371087775}
+  watermover: {fileID: 0}
 --- !u!54 &5351517835767046377
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -573,7 +573,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.047933, y: 5, z: 4.997552}
   m_Center: {x: 0.0011241436, y: 2.5, z: -0.015617847}
---- !u!114 &6389207634371087775
+--- !u!114 &-4964561174634001099
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -585,8 +585,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b02f6b9223dbc4f4c871f847afd8d8bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 0}
-  model: {fileID: 2779912579807274017}
+  troop: {fileID: 0}
+  boat: {fileID: 0}
+  troopmover: {fileID: 0}
+  WaterSpeed: 0
+  terrain: {fileID: 0}
 --- !u!1 &5909115165309030576
 GameObject:
   m_ObjectHideFlags: 0

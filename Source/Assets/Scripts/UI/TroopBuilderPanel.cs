@@ -8,7 +8,8 @@ public class TroopBuilderPanel : MonoBehaviour
     [SerializeField] private TroopBuilderUI prefab;
     [SerializeField] private CityViewBarScript statusbar;
     [SerializeField] private Transform BuilderPanel, StatusPanel;
-
+    [SerializeField] private Slider troopprogress;
+    [SerializeField] private GameObject progress;
     [SerializeField] private List<Spawnables> spawnables = new List<Spawnables>();
     [SerializeField] private ResourceManager resourceManager;
     public CityScript city;
@@ -31,9 +32,10 @@ public class TroopBuilderPanel : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+       
+
     }
 
     public void UpdateUi()
@@ -86,5 +88,21 @@ public class TroopBuilderPanel : MonoBehaviour
             }
         }
       
+    }
+
+    public IEnumerator load()
+    {
+        if (city.trainingqueue.Count >= 1)
+        {
+            progress.SetActive(true);
+            troopprogress.value = city.troopprogress;
+        }
+        else
+        {
+            progress.SetActive(false);
+        }
+        yield return new WaitForSeconds(1);
+
+        StartCoroutine(load());
     }
 }
