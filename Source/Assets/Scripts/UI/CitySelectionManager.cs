@@ -8,6 +8,7 @@ public class CitySelectionManager : MonoBehaviour
     [SerializeField]private GameObject Uiprefab,UiPanel;
     [SerializeField] private Transform UIparent;
     [SerializeField] private CityManager mgr;
+    [SerializeField] private CameraMovement camera;
     // Start is called before the first frame update
     private PhotonView photonView;
     void Start()
@@ -39,6 +40,7 @@ public class CitySelectionManager : MonoBehaviour
     public void removecity(string cityname)
     {
         photonView.RPC("RemoveCityUi", RpcTarget.AllViaServer,cityname);
+        camera.ViewCity(cityname);
         UiPanel.SetActive(false);
         mgr.SendCityOwnerChange(cityname);
 

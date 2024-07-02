@@ -40,12 +40,42 @@ public class TerrainRecorder : MonoBehaviour
 
     public bool CheckForWater(Vector2 key)
     {
-
+        //int Vote = 0;
+        //Color TerColor = new Color();
+        //int r = 0;
+        //int g = 0;
+        //int b = 0;
+        //for (int x = -5; x<= 5; x += 5)
+        //{
+        //    for (int y = -5; y <= 5; y += 5)
+        //    {
+        //        TerColor = GetColor(new Vector2(key.x + x, key.y + y));
+        //        r = Mathf.RoundToInt(TerColor.r * 255);
+        //        g = Mathf.RoundToInt(TerColor.g * 255);
+        //        b = Mathf.RoundToInt(TerColor.b * 255);
+        //        if (r == 11 && g == 10 && b == 49)
+        //        {
+        //            Vote++;
+        //        }
+        //    }
+        //}
+        //Debug.Log("Voted "+ Vote );
+        //if (Vote > 0)
+        //{
+        //    Debug.Log("on water");
+        //    return true;
+        //}
+        //else
+        //{
+        //    return false;
+        //}
         Color TerColor = GetColor(key);
-        int r = Mathf.RoundToInt(TerColor.r * 255);
-        int g = Mathf.RoundToInt(TerColor.g * 255);
-        int b = Mathf.RoundToInt(TerColor.b * 255);
-        if (r == 11 && g == 10 && b == 49)
+        int r = Mathf.RoundToInt(TerColor.r * 25);
+        int g = Mathf.RoundToInt(TerColor.g * 25);
+        int b = Mathf.RoundToInt(TerColor.b * 25);
+
+        Debug.Log(r + ", " + g + ", " + b);
+        if (r == 1 && g == 1 && b == 5)
         {
             Debug.Log("on water");
             return true;

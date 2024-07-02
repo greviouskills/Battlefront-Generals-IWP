@@ -59,6 +59,7 @@ public class CityScript : MonoBehaviour
     {
         MHP = population/10;
         HP = MHP;
+       
     }
 
     // Update is called once per frame
@@ -105,6 +106,7 @@ public class CityScript : MonoBehaviour
         owner.ownerID = ID;
         owner.ownername = name;
         StopCoroutine(Construct());
+
     }
 
     public void BuildConstruction(string building)
@@ -211,8 +213,14 @@ public class CityScript : MonoBehaviour
 
     IEnumerator Construct()
     {
+        buildprogress = 0;
         buildingconstruction = true;
-        yield return new WaitForSeconds(90f);
+        float waittime = 90f;
+        for(int i = 0; i<= waittime; i++)
+        {
+            yield return new WaitForSeconds(1f);
+            buildprogress = i / waittime;
+        }
         Constructed.Add(Constructing[0]);
         Constructing.RemoveAt(0);
         manager.SendUpdateCityBuildings(this.gameObject.name, Constructed, Constructable);
@@ -228,14 +236,14 @@ public class CityScript : MonoBehaviour
 
     IEnumerator Train()
     {
-        troopprogress = 0;
+
         trainingtroop = true;
         for(int i = 0; i <= trainingqueue[0].Wait; i++)
         {
-            yield return new WaitForSeconds(trainingqueue[0].Wait);
+            yield return new WaitForSeconds(1);
             troopprogress = i / trainingqueue[0].Wait;
         }
-        
+        troopprogress = 0;
         troopsync.SendSpawnTroops(trainingqueue[0].Troop, owner.ownername, owner.ownerID, this.transform.position);
         trainingqueue.RemoveAt(0);
         

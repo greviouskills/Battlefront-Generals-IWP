@@ -7,7 +7,7 @@ public class CityViewScript : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private GameObject Bar1, Bar2;
     [SerializeField] private Transform UiParent;
-    private CityScript targetcity;
+    public CityScript targetcity;
 
     [SerializeField] private Text Population, Cityname, Owner;
     [SerializeField] private GameObject Button,progress;
@@ -15,13 +15,20 @@ public class CityViewScript : MonoBehaviour
     [SerializeField] private Slider buildprogress;
     void Start()
     {
-        
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         buildprogress.value = targetcity.buildprogress;
+        if (targetcity.Constructing.Count == 0)
+        {
+            progress.SetActive(false);
+        }
+        else
+        {
+            progress.SetActive(true);
+        }
     }
 
     public void SetUi(CityScript city, bool CanSpy, bool isowner)
@@ -93,4 +100,5 @@ public class CityViewScript : MonoBehaviour
         builderpanel.UpdateUi();
         this.gameObject.SetActive(false);
     }
+
 }

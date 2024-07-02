@@ -15,6 +15,10 @@ public class UImanager : MonoBehaviour
     [Header("ResourceView")]
     [SerializeField] private Text Money;
     [SerializeField] private Text Steel, Manpower, Oil;
+    [Header("Tutorial Screen")]
+    [SerializeField] private List<GameObject> TutorialPanels =  new List<GameObject>();
+    private int pagecount = 0;
+    public bool tutorialopen = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +45,7 @@ public class UImanager : MonoBehaviour
         TroopPanel.SetActive(true);
         if (selectedcount > 1)
         {
-            TroopName.text = "Multiple";
+            TroopName.text = "Multiple ("+selectedcount+")";
             TroopOwner.text = troop.owner.ownername;
             //TroopFightingCapacity.text = "Fighting Capacity: Multiple";
             //TroopHP.text = "Health: Multiple";
@@ -92,4 +96,32 @@ public class UImanager : MonoBehaviour
         Manpower.text = "Manpower: " + resourcemanager.manpower;
 
     }
+
+    public void OpenTutorial()
+    {
+        tutorialopen = true;
+        TutorialPanels[pagecount].SetActive(true);
+    }
+    public void CloseTutorial()
+    {
+        foreach(var Page in TutorialPanels)
+        {
+            Page.SetActive(false);
+        }
+        tutorialopen = false;
+    }
+
+    public void Nextpage()
+    {
+        TutorialPanels[pagecount].SetActive(false);
+        pagecount++;
+        TutorialPanels[pagecount].SetActive(true);
+    }
+    public void Prevpage()
+    {
+        TutorialPanels[pagecount].SetActive(false);
+        pagecount--;
+        TutorialPanels[pagecount].SetActive(true);
+    }
+
 }

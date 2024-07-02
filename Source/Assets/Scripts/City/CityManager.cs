@@ -96,4 +96,18 @@ public class CityManager : MonoBehaviour
             city.CityIncrement();
         }
     }
+
+    public CityScript Getcity(string Name)
+    {
+        foreach(var city in Cities)
+        {
+            if(city.gameObject.name == Name)
+            {
+                return city;
+            }
+        }
+
+        return null;
+
+    }
 }

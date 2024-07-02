@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 public class CentralSystem : MonoBehaviour
 {
     [SerializeField] private PlayerData playerdata;
     [SerializeField]private TroopSync troopsync;
     [SerializeField] private CityManager citysync;
     [SerializeField] private ResourceManager resourcemanager;
+    private int Days = 0;
+    [SerializeField] private Text text;
     //[SerializeField] private UImanager uimanager;
     private PhotonView photonView;
     // Start is called before the first frame update
@@ -52,6 +55,8 @@ public class CentralSystem : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
             resourcemanager.GetResources();
+            Days++;
+            text.text = "Day " + Days;
         }
     }
 

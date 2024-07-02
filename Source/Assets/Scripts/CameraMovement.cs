@@ -13,6 +13,8 @@ public class CameraMovement : MonoBehaviour
     private float zoomspeed;
     [SerializeField]
     private float defaultlimitX,defaultlimitY;
+    [SerializeField]
+    private CityManager city;
 
     void Start()
     {
@@ -81,4 +83,10 @@ public class CameraMovement : MonoBehaviour
         scrollspeed = Defaultscrollspeed*percentage;
     }
    
+    public void ViewCity(string name)
+    {
+        GameObject target = city.Getcity(name).gameObject;
+        transform.position = new Vector3(target.transform.position.x, 40, target.transform.position.z);
+        AddLimit(transform.position.y);
+    }
 }

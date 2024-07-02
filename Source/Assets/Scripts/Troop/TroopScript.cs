@@ -38,7 +38,7 @@ public class TroopScript : MonoBehaviour
     }
     void Start()
     {
-       
+        StartCoroutine(Heal());
         MHealth = Health;
         MAttack = Attack;
         //StartCoroutine(UpdateSystem());
@@ -213,6 +213,16 @@ public class TroopScript : MonoBehaviour
         }
     }
 
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("City"))
+        {
+            Debug.Log("left city");
+            CityScript temp = other.gameObject.GetComponent<CityScript>();
+            removecity(temp.gameObject.name);
+        }
+    }
+
     public void removecity(string cityname)
     {
         for (int i = 0; i < CapturingCity.Count; i++)
@@ -222,5 +232,19 @@ public class TroopScript : MonoBehaviour
                 CapturingCity.RemoveAt(i);
             }
         }
+    }
+
+    private IEnumerator Heal()
+    {
+        yield return new WaitForSeconds(1f);
+        if(Health < MHealth && combatantcount == 0 && CapturingCity.Count == 0)
+        {
+            Health += MHealth / 100;
+        }
+        if(Health > MHealth)
+        {
+            Health = MHealth;
+        }
+        StartCoroutine(Heal());
     }
 }

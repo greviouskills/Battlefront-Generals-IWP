@@ -28,14 +28,21 @@ public class TroopBuilderPanel : MonoBehaviour
     }
     void Start()
     {
-        
     }
 
     // Update is called once per frame
+    
     void FixedUpdate()
     {
-       
-
+        troopprogress.value = city.troopprogress;
+        if (city.trainingqueue.Count == 0)
+        {
+            progress.SetActive(false);
+        }
+        else
+        {
+            progress.SetActive(true);
+        }
     }
 
     public void UpdateUi()
@@ -90,19 +97,5 @@ public class TroopBuilderPanel : MonoBehaviour
       
     }
 
-    public IEnumerator load()
-    {
-        if (city.trainingqueue.Count >= 1)
-        {
-            progress.SetActive(true);
-            troopprogress.value = city.troopprogress;
-        }
-        else
-        {
-            progress.SetActive(false);
-        }
-        yield return new WaitForSeconds(1);
 
-        StartCoroutine(load());
-    }
 }

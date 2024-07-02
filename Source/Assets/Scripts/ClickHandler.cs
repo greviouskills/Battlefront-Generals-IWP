@@ -39,8 +39,12 @@ public class ClickHandler : MonoBehaviour
         // Check if the left mouse button is pressed
         if (Input.GetMouseButtonDown(0) && data.Ownedcities.Count>0)
         {
+            if (IsMouseOnUI() || uimanager.tutorialopen)
+            {
+                return;
+            }
 
-            
+
             // Create a ray from the camera through the mouse position
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -85,11 +89,8 @@ public class ClickHandler : MonoBehaviour
                 else if(SelectingWaypoint)
                 {
                     
-                    if (IsMouseOnUI())
-                    {
-                        return;
-                    }
-                    else if (hit.transform.CompareTag("City"))
+                  
+                    if (hit.transform.CompareTag("City"))
                     {
                         waypoints.Add(new Vector3(hit.point.x, 0, hit.point.z));
                         linedrawer.positionCount += 1;
@@ -145,43 +146,47 @@ public class ClickHandler : MonoBehaviour
                 }
                 else
                 {
-                    if (IsMouseOnUI())
-                    {
-                        return;
-                    }
-                    else if (hit.transform.CompareTag("Troop"))
+                    if (hit.transform.CompareTag("Troop"))
                     {
                         ClearSelection();
-                        Selected.Add(hit.transform.gameObject);
                         TroopScript troop = hit.transform.GetComponent<TroopScript>();
                         selectedOwner = troop.owner.ownerID;
+                        Selected.Add(hit.transform.gameObject);
                         uimanager.UpdateTroopUI(troop, Selected.Count);
+                        if (selectedOwner == playerID)
+                        {
+                            uimanager.UpdateTroopUI(troop, Selected.Count);
+                            //troop.owner.selected = true;
+                            SelectingWaypoint = true;
+                            linedrawer.positionCount++;
+                            linedrawer.SetPosition(0, hit.transform.position);
+                        }
                     }
                     else if (hit.transform.CompareTag("City"))
                     {
+                        ClearSelection();
                         CityScript city = hit.transform.GetComponent<CityScript>();
                         selectedOwner = city.owner.ownerID;
-                        if (Input.GetKey(KeyCode.LeftControl) &&
-                            city.owner.ownerID == playerID &&
-                            selectedOwner == playerID
-                            )
+                        //if (Input.GetKey(KeyCode.LeftControl) &&
+                        //    city.owner.ownerID == playerID &&
+                        //    selectedOwner == playerID
+                        //    )
+                        //{
+                        //    Selected.Add(hit.transform.gameObject);
+                        //    uimanager.UpdateCityUI(Selected.Count, city, true, CanSpy);
+                        //}
+                        //else
+                        //{
+                        Selected.Add(hit.transform.gameObject);
+                        if (selectedOwner == playerID)
                         {
-                            Selected.Add(hit.transform.gameObject);
                             uimanager.UpdateCityUI(Selected.Count, city, true, CanSpy);
                         }
                         else
                         {
-                            ClearSelection();
-                            Selected.Add(hit.transform.gameObject);
-                            if (selectedOwner == playerID)
-                            {
-                                uimanager.UpdateCityUI(Selected.Count, city, true, CanSpy);
-                            }
-                            else
-                            {
-                                uimanager.UpdateCityUI(Selected.Count, city, false, CanSpy);
-                            }
+                            uimanager.UpdateCityUI(Selected.Count, city, false, CanSpy);
                         }
+                        //}
                     }
                     else
                     {
@@ -240,6 +245,10 @@ public class ClickHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             Sync.SendSpawnTroops("Infantry Company", playerName, playerID, data.Ownedcities[0].transform.position);
+        }
+        if (Input.GetKeyDown(KeyCode.F9))
+        {
+            Sync.SendSpawnTroops("Debugger", playerName, playerID, data.Ownedcities[0].transform.position);
         }
     }
 
