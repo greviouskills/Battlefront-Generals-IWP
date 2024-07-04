@@ -621,6 +621,7 @@ MonoBehaviour:
   modelrenderer: {fileID: 8308063021393854810}
   boatrenderer: {fileID: 0}
   HPbar: {fileID: 7631499514037073539}
+  hpcanvas: {fileID: 7123869712434987208}
   emitter: {fileID: 5403773859301895664}
 --- !u!114 &5351517835767046383
 MonoBehaviour:

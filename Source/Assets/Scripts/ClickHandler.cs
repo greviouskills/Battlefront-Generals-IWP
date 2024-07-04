@@ -106,6 +106,10 @@ public class ClickHandler : MonoBehaviour
                     {
                         if (Input.GetKey(KeyCode.LeftControl))
                         {
+                            //if (Selected.Count == 1)
+                            //{
+                            //    linedrawer.positionCount = 0;
+                            //}
                             TroopScript troop = hit.transform.GetComponent<TroopScript>();
                             selectedOwner = troop.owner.ownerID;
                             Debug.Log("test");
@@ -115,11 +119,14 @@ public class ClickHandler : MonoBehaviour
                                 uimanager.UpdateTroopUI(troop, Selected.Count);
                                 //troop.owner.selected = true;
                             }
+                            
                         }
                         else if (Input.GetKey(KeyCode.LeftShift))
                         {
+                            
                             waypoints.Add(new Vector3(hit.point.x, 0, hit.point.z));
                             linedrawer.positionCount+=1;
+                           
                             linedrawer.SetPosition(waypoints.Count, new Vector3(waypoints[waypoints.Count-1].x, 0.1f, waypoints[waypoints.Count - 1].z));
                         }
                         else

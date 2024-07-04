@@ -7,7 +7,7 @@ public class WaterMovement : MonoBehaviour
     [SerializeField] private GameObject troop,boat;
     //[SerializeField] private Renderer model;
     [SerializeField] private TroopMovementScript troopmover;
-    [SerializeField] private float WaterSpeed = 1.5f;
+    [SerializeField] private float WaterSpeed;
     public TerrainRecorder terrain;
     private float defaultspeed;
     public bool changecolor;
@@ -15,6 +15,7 @@ public class WaterMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        WaterSpeed = 1.5f;
         //Debug.Log(map.width + ", " + map.height);
         if(troopmover != null)
         {

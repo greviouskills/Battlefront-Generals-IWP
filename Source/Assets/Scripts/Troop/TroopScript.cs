@@ -27,6 +27,7 @@ public class TroopScript : MonoBehaviour
 
     public Renderer modelrenderer,boatrenderer;
     [SerializeField] private Slider HPbar;
+    [SerializeField] private GameObject hpcanvas;
     [SerializeField] private ParticleSystem emitter;
 
     private int combatantcount;
@@ -246,5 +247,10 @@ public class TroopScript : MonoBehaviour
             Health = MHealth;
         }
         StartCoroutine(Heal());
+    }
+
+    public void SetBarActive(bool active)
+    {
+        hpcanvas.SetActive(active);
     }
 }

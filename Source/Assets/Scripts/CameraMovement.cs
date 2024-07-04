@@ -15,6 +15,8 @@ public class CameraMovement : MonoBehaviour
     private float defaultlimitX,defaultlimitY;
     [SerializeField]
     private CityManager city;
+    [SerializeField]
+    private TroopSync troop;
 
     void Start()
     {
@@ -32,6 +34,7 @@ public class CameraMovement : MonoBehaviour
             if(transform.position.z < defaultlimitX)
             {
                 transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + scrollspeed);
+                troop.CameraCheck(transform.position, transform.position.y * 1.5f);
             }
         }
         if (Input.GetKey(KeyCode.S))
@@ -39,6 +42,7 @@ public class CameraMovement : MonoBehaviour
             if (transform.position.z > -(defaultlimitX))
             {
                 transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - scrollspeed);
+                troop.CameraCheck(transform.position, transform.position.y * 1.5f);
             }
         }
         if (Input.GetKey(KeyCode.D))
@@ -46,6 +50,7 @@ public class CameraMovement : MonoBehaviour
             if (transform.position.x < defaultlimitX)
             {
                 transform.position = new Vector3(transform.position.x + scrollspeed, transform.position.y, transform.position.z);
+                troop.CameraCheck(transform.position, transform.position.y * 1.5f);
             }
         }
         if (Input.GetKey(KeyCode.A))
@@ -53,6 +58,7 @@ public class CameraMovement : MonoBehaviour
             if (transform.position.x > -(defaultlimitX))
             {
                 transform.position = new Vector3(transform.position.x - scrollspeed, transform.position.y, transform.position.z);
+                troop.CameraCheck(transform.position, transform.position.y * 1.5f);
             }
         }
         if (Input.GetKey(KeyCode.Equals))
@@ -61,6 +67,7 @@ public class CameraMovement : MonoBehaviour
             {
                 transform.position = new Vector3(transform.position.x, transform.position.y - (zoomspeed*Time.deltaTime), transform.position.z);
                 AddLimit(transform.position.y);
+                troop.CameraCheck(transform.position, transform.position.y * 1.5f);
             }
         }
         if (Input.GetKey(KeyCode.Minus))
@@ -70,6 +77,7 @@ public class CameraMovement : MonoBehaviour
             {
                 transform.position = new Vector3(transform.position.x, transform.position.y + (zoomspeed * Time.deltaTime), transform.position.z);
                 AddLimit(transform.position.y);
+                troop.CameraCheck(transform.position, transform.position.y * 1.5f);
             }
         }
 

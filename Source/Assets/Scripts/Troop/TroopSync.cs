@@ -148,4 +148,23 @@ public class TroopSync : MonoBehaviour
             troop.AttackCombatants();
         }
     }
+
+    public void CameraCheck(Vector3 pos, float Range)
+    {
+        foreach(var troop in troops)
+        {
+            if(troop.gameObject.transform.position.x <= pos.x+ Range &&
+                troop.gameObject.transform.position.x >= pos.x - Range &&
+                troop.gameObject.transform.position.z <= pos.z + Range &&
+                troop.gameObject.transform.position.z >= pos.z - Range && 
+                pos.y <= 60)
+            {
+                troop.SetBarActive(true);
+            }
+            else
+            {
+                troop.SetBarActive(false);
+            }
+        }
+    }
 }

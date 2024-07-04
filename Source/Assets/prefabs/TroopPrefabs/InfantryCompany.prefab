@@ -5333,6 +5333,7 @@ MonoBehaviour:
   modelrenderer: {fileID: 5351517835789942347}
   boatrenderer: {fileID: 4397574770318835088}
   HPbar: {fileID: 6608583386433149808}
+  hpcanvas: {fileID: 4503348642560080668}
   emitter: {fileID: 3506381570921303312}
 --- !u!114 &5351517835767046383
 MonoBehaviour:
@@ -5416,6 +5417,8 @@ MonoBehaviour:
   troopmover: {fileID: 5351517835767046383}
   WaterSpeed: 0
   terrain: {fileID: 0}
+  changecolor: 0
+  model: {fileID: 0}
 --- !u!1 &5351517835789942349
 GameObject:
   m_ObjectHideFlags: 0
