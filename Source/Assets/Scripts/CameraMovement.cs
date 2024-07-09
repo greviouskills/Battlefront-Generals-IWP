@@ -12,81 +12,75 @@ public class CameraMovement : MonoBehaviour
     [SerializeField]
     private float zoomspeed;
     [SerializeField]
-    private float defaultlimitX,defaultlimitY;
-    [SerializeField]
     private CityManager city;
     [SerializeField]
     private TroopSync troop;
-
+    public bool canmove;
     void Start()
     {
         cam = GetComponent<Camera>();
         AddLimit(transform.position.y);
+        StartCoroutine(refresh());
     }
 
     // Update is called once per frame
     void Update()
     {
         //AddLimit(cam.fieldOfView);
-        
-        if (Input.GetKey(KeyCode.W))
+        if (canmove)
         {
-            if(transform.position.z < defaultlimitX)
+            if (Input.GetKey(KeyCode.W))
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + scrollspeed);
-                troop.CameraCheck(transform.position, transform.position.y * 1.5f);
+                if (transform.position.z < 750)
+                {
+                    transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + (scrollspeed * Time.deltaTime));
+                }
             }
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            if (transform.position.z > -(defaultlimitX))
+            if (Input.GetKey(KeyCode.S))
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - scrollspeed);
-                troop.CameraCheck(transform.position, transform.position.y * 1.5f);
+                if (transform.position.z > -(750))
+                {
+                    transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - (scrollspeed * Time.deltaTime));
+                }
             }
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            if (transform.position.x < defaultlimitX)
+            if (Input.GetKey(KeyCode.D))
             {
-                transform.position = new Vector3(transform.position.x + scrollspeed, transform.position.y, transform.position.z);
-                troop.CameraCheck(transform.position, transform.position.y * 1.5f);
+                if (transform.position.x < 750)
+                {
+                    transform.position = new Vector3(transform.position.x + (scrollspeed * Time.deltaTime), transform.position.y, transform.position.z);
+                }
             }
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            if (transform.position.x > -(defaultlimitX))
+            if (Input.GetKey(KeyCode.A))
             {
-                transform.position = new Vector3(transform.position.x - scrollspeed, transform.position.y, transform.position.z);
-                troop.CameraCheck(transform.position, transform.position.y * 1.5f);
+                if (transform.position.x > -(750))
+                {
+                    transform.position = new Vector3(transform.position.x - (scrollspeed * Time.deltaTime), transform.position.y, transform.position.z);
+                }
             }
-        }
-        if (Input.GetKey(KeyCode.Equals))
-        {
-            if(transform.position.y > 15)
+            if (Input.GetKey(KeyCode.Equals))
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y - (zoomspeed*Time.deltaTime), transform.position.z);
-                AddLimit(transform.position.y);
-                troop.CameraCheck(transform.position, transform.position.y * 1.5f);
+                if (transform.position.y > 7)
+                {
+                    transform.position = new Vector3(transform.position.x, transform.position.y - (zoomspeed * Time.deltaTime), transform.position.z);
+                    AddLimit(transform.position.y);
+                }
             }
-        }
-        if (Input.GetKey(KeyCode.Minus))
-        {
+            if (Input.GetKey(KeyCode.Minus))
+            {
 
-            if (transform.position.y < 210)
-            {
-                transform.position = new Vector3(transform.position.x, transform.position.y + (zoomspeed * Time.deltaTime), transform.position.z);
-                AddLimit(transform.position.y);
-                troop.CameraCheck(transform.position, transform.position.y * 1.5f);
+                if (transform.position.y < 210)
+                {
+                    transform.position = new Vector3(transform.position.x, transform.position.y + (zoomspeed * Time.deltaTime), transform.position.z);
+                    AddLimit(transform.position.y);
+                }
             }
         }
+        
 
     }
 
     private void AddLimit(float val)
     {
-        defaultlimitY = 680f - 1.283333f * val + 0.002f * Mathf.Pow(val, 2) - 0.000006666667f * Mathf.Pow(val, 3);
-        defaultlimitX = 1060f - 13.7f * val + 0.122f * Mathf.Pow(val, 2) - 0.0004f * Mathf.Pow(val, 3);
         float percentage = val / 200;
         scrollspeed = Defaultscrollspeed*percentage;
     }
@@ -96,5 +90,11 @@ public class CameraMovement : MonoBehaviour
         GameObject target = city.Getcity(name).gameObject;
         transform.position = new Vector3(target.transform.position.x, 40, target.transform.position.z);
         AddLimit(transform.position.y);
+    }
+    public IEnumerator refresh()
+    {
+        troop.CameraCheck(transform.position, transform.position.y * 1.5f);
+        yield return new WaitForSeconds(0.3f);
+        StartCoroutine(refresh());
     }
 }

@@ -11,7 +11,7 @@ public class UImanager : MonoBehaviour
     [SerializeField] private Text Population, Cityname, Owner;
     [Header("TroopView")]
     [SerializeField] private GameObject TroopPanel;
-    [SerializeField] private Text TroopName, TroopOwner;
+    [SerializeField] private Text TroopName, TroopOwner, HP, Attack, Integrity, Targets;
     [Header("ResourceView")]
     [SerializeField] private Text Money;
     [SerializeField] private Text Steel, Manpower, Oil;
@@ -19,6 +19,7 @@ public class UImanager : MonoBehaviour
     [SerializeField] private List<GameObject> TutorialPanels =  new List<GameObject>();
     private int pagecount = 0;
     public bool tutorialopen = false;
+    public bool UIopen;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,23 +38,35 @@ public class UImanager : MonoBehaviour
         CityPanel.SetActive(false);
         TroopPanel.SetActive(false);
         TroopBuilder.SetActive(false);
+        UIopen = false;
     }
 
     public void UpdateTroopUI(TroopScript troop,int selectedcount)
     {
+        UIopen = true;
         CityPanel.SetActive(false);
         TroopPanel.SetActive(true);
-        if (selectedcount > 1)
+        if (selectedcount <= 1)
         {
             TroopName.text = "Multiple ("+selectedcount+")";
             TroopOwner.text = troop.owner.ownername;
+            HP.text = "HP: "+troop.Health;
+            Attack.text = "Atk: " + troop.Attack;
+            Integrity.text = "Integrity: " + troop.FightingCapacity * 100 + "%";
+            Targets.text = "Targets: " + troop.TargetType;
             //TroopFightingCapacity.text = "Fighting Capacity: Multiple";
             //TroopHP.text = "Health: Multiple";
         }
         else
         {
+            Debug.Log("Selected"+selectedcount);
+
             TroopName.text = troop.TroopName;
             TroopOwner.text = "Owned By: " + troop.owner.ownername;
+            HP.text = "HP: " + "Multiple";
+            Attack.text = "Atk: " + "Multiple";
+            Integrity.text = "Integrity: " + "Multiple";
+            Targets.text = "Targets: " + "Multiple";
             //if (showstat)
             //{
             //    //TroopFightingCapacity.text = "Fighting Capacity: " + troop.fightingcap;
@@ -70,6 +83,7 @@ public class UImanager : MonoBehaviour
 
     public void UpdateCityUI(int selectedcount, CityScript city, bool isowner, bool canspy)
     {
+        UIopen = true;
         CityPanel.SetActive(true);
         TroopPanel.SetActive(false);
         CityPanel.GetComponent<CityViewScript>().SetUi(city, canspy, isowner);
@@ -90,7 +104,8 @@ public class UImanager : MonoBehaviour
 
     public void UpdateResourceUi()
     {
-        Money.text = "$"+resourcemanager.money/1000000 +"M";
+        
+        Money.text = "$"+ (Mathf.RoundToInt(resourcemanager.money / 100) / 10000f).ToString("F2") + " M";
         Steel.text = "Steel: " + resourcemanager.steel;
         Oil.text = "Oil: " + resourcemanager.oil;
         Manpower.text = "Manpower: " + resourcemanager.manpower;

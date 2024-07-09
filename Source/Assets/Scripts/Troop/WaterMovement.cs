@@ -15,7 +15,7 @@ public class WaterMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        WaterSpeed = 1.5f;
+        WaterSpeed = 4.5f;
         //Debug.Log(map.width + ", " + map.height);
         if(troopmover != null)
         {

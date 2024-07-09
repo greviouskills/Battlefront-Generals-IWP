@@ -17,11 +17,17 @@ public class TerrainRecorder : MonoBehaviour
     {
         
     }
-    public Color GetColor(Vector2 key)
+    public bool HasLocation(Vector2 key)
     {
-        int x = Mathf.RoundToInt((key.x + 750) * 0.3413f);
-        int z = Mathf.RoundToInt((key.y + 750) * 0.3413f);
-        Vector2 RefKey = new Vector2(x, z);
+        if (mapterrain.ContainsKey(key))
+        {
+            return true;
+        }
+        return false;
+    }
+    public Color GetColor(Vector2 key)
+    {  
+        Vector2Int RefKey = GenerateKey(key,512);
         if (mapterrain.ContainsKey(RefKey))
         {
             Debug.Log("pulled from dictonary");
@@ -29,7 +35,7 @@ public class TerrainRecorder : MonoBehaviour
         }
         else
         {
-            Color TerColor = map.GetPixel(x, z);
+            Color TerColor = map.GetPixel(RefKey.x, RefKey.y);
             //float r = Mathf.RoundToInt(TerColor.r * 255);
             //float g = Mathf.RoundToInt(TerColor.g * 255);
             //float b = Mathf.RoundToInt(TerColor.b * 255);
@@ -74,12 +80,22 @@ public class TerrainRecorder : MonoBehaviour
         int g = Mathf.RoundToInt(TerColor.g * 25);
         int b = Mathf.RoundToInt(TerColor.b * 25);
 
-        Debug.Log(r + ", " + g + ", " + b);
+
         if (r == 1 && g == 1 && b == 5)
         {
-            Debug.Log("on water");
             return true;
         }
         return false;
+    }
+
+    public Vector2Int GenerateKey(Vector2 key, int mapscale)
+    {
+        float multiplier = mapscale / 512f;
+        int x = Mathf.RoundToInt((key.x + 750) * (0.3413f * multiplier));
+        int z = Mathf.RoundToInt((key.y + 750) * (0.3413f * multiplier));
+        Vector2Int NewKey = new Vector2Int(x, z);
+
+
+        return NewKey;
     }
 }

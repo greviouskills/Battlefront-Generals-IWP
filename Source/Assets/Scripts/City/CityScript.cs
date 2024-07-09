@@ -12,9 +12,10 @@ public class CityScript : MonoBehaviour
     public int population;
     public float money;
     public float manpower;
+    public float HPMulti;
     [SerializeField] private float HPRegen = 2000;
-    [SerializeField]
-    public List<ResourceStats> Resources = new List<ResourceStats>();
+    public float OilProd;
+    public float SteelProd;
 
     [Header("City Combat")]
     [SerializeField]
@@ -32,8 +33,10 @@ public class CityScript : MonoBehaviour
     public float buildprogress;
     private bool buildingconstruction;
     private bool trainingtroop;
+    public bool Selected = false;
     public TroopSync troopsync;
     [SerializeField] private GameObject canvas;
+    [SerializeField] private GameObject selectionindicator;
     [SerializeField] private Slider hpbar;
     [Serializable]
     public class ResourceStats
@@ -57,9 +60,8 @@ public class CityScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MHP = population/10;
-        HP = MHP;
-       
+        MHP = population*HPMulti;
+        HP = MHP;       
     }
 
     // Update is called once per frame
@@ -159,6 +161,12 @@ public class CityScript : MonoBehaviour
 
     public void TakeDamage(float damage,TroopScript troop)
     {
+        if (float.IsNaN(damage))
+        {
+            Debug.Log("Damage is NaN. Aborting TakeDamage.");
+            return;
+        }
+
         canvas.SetActive(true);
         HP -= damage;
         population -= (int)damage/50;
@@ -166,7 +174,7 @@ public class CityScript : MonoBehaviour
         {
             if (HP <= 0)
             {
-                HP = population / 100;
+                HP = MHP / 10;
                 manager.ChangeCityOwner(this.gameObject.name, troop.owner.ownerID, troop.owner.ownername, new Vector3(troop.modelrenderer.material.color.r, troop.modelrenderer.material.color.g,troop.modelrenderer.material.color.b));
                 Combatants.Clear();
                 trainingqueue.Clear();
@@ -185,18 +193,23 @@ public class CityScript : MonoBehaviour
     {
         population += (int)(population * 0.00002);
         MHP = population / 10;
+        if (HP <= 0)
+        {
+            HP = MHP / 10;
+        }
         if (HP < MHP && Combatants.Count == 0)
         {
-            HP += population / HPRegen;
+            HP += MHP / HPRegen;
         }
         if (HP > MHP)
         {
             HP = MHP;
         }
-        if(HP == MHP)
+        if(HP >= MHP-(MHP/100))
         {
             canvas.SetActive(false);
         }
+        hpbar.value = HP / MHP;
     }
 
     public void RemoveCombatant(string ID)
@@ -238,10 +251,19 @@ public class CityScript : MonoBehaviour
     {
 
         trainingtroop = true;
-        for(int i = 0; i <= trainingqueue[0].Wait; i++)
+        for(int i = 0; i <= trainingqueue[0].Wait;)
         {
             yield return new WaitForSeconds(1);
-            troopprogress = i / trainingqueue[0].Wait;
+            if(Combatants.Count == 0)
+            {
+                troopprogress = i / trainingqueue[0].Wait;
+                i++;
+            }
+            else
+            {
+                i--;
+            }
+
         }
         troopprogress = 0;
         troopsync.SendSpawnTroops(trainingqueue[0].Troop, owner.ownername, owner.ownerID, this.transform.position);
@@ -267,5 +289,11 @@ public class CityScript : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void select(bool selected)
+    {
+        Selected = selected;
+        selectionindicator.SetActive(selected);
     }
 }

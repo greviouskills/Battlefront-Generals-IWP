@@ -9,7 +9,7 @@ public class CityViewScript : MonoBehaviour
     [SerializeField] private Transform UiParent;
     public CityScript targetcity;
 
-    [SerializeField] private Text Population, Cityname, Owner;
+    [SerializeField] private Text Population, Cityname, Owner, Steel, Oil, Money, Manpower;
     [SerializeField] private GameObject Button,progress;
     [SerializeField] private TroopBuilderPanel builderpanel;
     [SerializeField] private Slider buildprogress;
@@ -36,13 +36,17 @@ public class CityViewScript : MonoBehaviour
         Button.SetActive(false);
         progress.SetActive(false);
         targetcity = city;
+        Money.text = "Money: $" + (city.money * city.population);
+        Oil.text = "Oil: " + city.OilProd;
+        Steel.text = "Steel: " + city.SteelProd;
+        Manpower.text = "Manpower: " + (city.manpower * city.population);
 
         foreach (Transform child in UiParent)
         {
             // Destroy the child GameObject
             Destroy(child.gameObject);
         }
-
+        
         if (isowner || CanSpy)
         {
             foreach (string building in city.Constructed)

@@ -24,11 +24,12 @@ public class TroopScript : MonoBehaviour
     public List<TroopScript> combatants = new List<TroopScript>();
     public List<TroopScript> combatlockers = new List<TroopScript>();
     public List<CityScript> CapturingCity = new List<CityScript>();
-
+    [Header("Misc")]
+    public bool Selected = false;
     public Renderer modelrenderer,boatrenderer;
     [SerializeField] private Slider HPbar;
-    [SerializeField] private GameObject hpcanvas;
-    [SerializeField] private ParticleSystem emitter;
+    [SerializeField] private GameObject hpcanvas,selectionindicator;
+    [SerializeField] private ParticleSystem emitter; 
 
     private int combatantcount;
     [Serializable]
@@ -238,7 +239,8 @@ public class TroopScript : MonoBehaviour
     private IEnumerator Heal()
     {
         yield return new WaitForSeconds(1f);
-        if(Health < MHealth && combatantcount == 0 && CapturingCity.Count == 0)
+
+        if(Health < MHealth && combatantcount == 0 && CapturingCity.Count == 0 && movement.Waypoints.Count == 0)
         {
             Health += MHealth / 100;
         }
@@ -252,5 +254,11 @@ public class TroopScript : MonoBehaviour
     public void SetBarActive(bool active)
     {
         hpcanvas.SetActive(active);
+    }
+
+    public void select(bool selected)
+    {
+        Selected = selected;
+        selectionindicator.SetActive(selected);
     }
 }

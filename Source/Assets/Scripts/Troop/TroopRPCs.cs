@@ -40,4 +40,10 @@ public class TroopRPCs : MonoBehaviour
         syncer.SyncAttack();
         syncer.removefromtroops();
     }
+
+    [PunRPC]
+    public void DefeatSync()
+    {
+        syncer.removefromtroops();
+    }
 }

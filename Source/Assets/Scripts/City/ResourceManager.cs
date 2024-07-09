@@ -7,9 +7,9 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] private PlayerData playerdata;
     [SerializeField] private UImanager uimanager;
     // Start is called before the first frame update
-    public float money = 100000000;
+    public float money;
     public float steel,oil;
-    public int manpower = 100000;
+    public int manpower;
     void Start()
     {
         
@@ -27,17 +27,8 @@ public class ResourceManager : MonoBehaviour
         {
             money += city.population * city.money;
             manpower +=(int)(city.population * city.manpower);
-            foreach(var resource in city.Resources)
-            {
-                if(resource.Resource == "Steel")
-                {
-                    steel += resource.Production;
-                }
-                else if (resource.Resource == "Oil")
-                {
-                    oil += resource.Production;
-                }
-            }
+            oil += city.OilProd;
+            steel += city.SteelProd;
         }
 
         uimanager.UpdateResourceUi();

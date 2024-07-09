@@ -6,11 +6,13 @@ public class PlayerData : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField]private ClickHandler clicker;
+    [SerializeField] private FogManager fog;
     public string playerName;
     public string playerID;
     public Color playercolor;
 
     public List<CityScript> Ownedcities = new List<CityScript>();
+    public List<TroopScript> OwnedTroops = new List<TroopScript>();
     void Start()
     {
         playerName = Photon.Pun.PhotonNetwork.LocalPlayer.NickName;
@@ -28,12 +30,12 @@ public class PlayerData : MonoBehaviour
         clicker.playerID = playerID;
         clicker.playercolor = playercolor;
         clicker.playerName = playerName;
+        StartCoroutine(scantroops());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public bool FindCityInPlayer(string name)
@@ -58,5 +60,38 @@ public class PlayerData : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void RemoveTroopInPlayer(string ID)
+    {
+        for (int i = 0; i < OwnedTroops.Count; i++)
+        {
+            if (OwnedTroops[i].owner.ID == ID)
+            {
+                OwnedTroops.RemoveAt(i);
+                return;
+            }
+        }
+    }
+
+    public void AddCity(CityScript city)
+    {
+        Ownedcities.Add(city);
+        Vector2 key = new Vector2(city.gameObject.transform.position.x, city.gameObject.transform.position.z);
+        fog.UpdateMap(key, 3);
+    }
+
+    public IEnumerator scantroops()
+    {
+        yield return new WaitForSeconds(0.2f);
+        foreach(var troop in OwnedTroops)
+        {
+            if(troop.movement.Waypoints.Count > 0)
+            {
+                Vector2 key = new Vector2(troop.transform.position.x, troop.transform.position.z);
+                fog.UpdateMap(key, 1);
+            }
+        }
+        StartCoroutine(scantroops());
     }
 }

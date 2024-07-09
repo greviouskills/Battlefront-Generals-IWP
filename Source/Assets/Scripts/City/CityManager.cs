@@ -13,8 +13,9 @@ public class CityManager : MonoBehaviour
     [SerializeField]private Transform CityParent;
     [SerializeField] private CitySelectionManager Uimgr;
     [SerializeField] private GameObject cam;
-
+    [SerializeField] private StatusSystem status;
     private PhotonView photonView;
+    private List<string> names = new List<string>();
     void Start()
     {
         photonView = this.GetComponentInParent<PhotonView>();
@@ -23,8 +24,6 @@ public class CityManager : MonoBehaviour
             Transform city = CityParent.GetChild(i);
             Cities.Add(city.gameObject.GetComponent<CityScript>());
         }
-
-        List<string> names = new List<string>();
         foreach(var city in Capitals)
         {
             names.Add(city.gameObject.name);
@@ -56,10 +55,11 @@ public class CityManager : MonoBehaviour
         {
             if(city.gameObject.name == Cityname)
             {
+                status.OnUpdateBar(playerName + " has taken over " + Cityname, false);
                 city.ChangeCityOwnership(playerID, playerName, temp);
                 if(playerID == playerdata.playerID)
                 {
-                    playerdata.Ownedcities.Add(city);
+                    playerdata.AddCity(city);
                 }
                 else if (playerdata.FindCityInPlayer(Cityname))
                 {
@@ -109,5 +109,23 @@ public class CityManager : MonoBehaviour
 
         return null;
 
+    }
+
+    public Vector3 GetCitiesCount()// X= playercount, Y = enemycount, Z = Total
+    {
+        int x = 0, y = 0;
+        foreach (var city in Cities)
+        {
+            if (city.owner.ownerID == playerdata.playerID)
+            {
+                x++;
+            }
+            else if (city.owner.ownerID != "-")
+            {
+                y++;
+            }
+        }
+
+        return new Vector3(x, y, Cities.Count);
     }
 }

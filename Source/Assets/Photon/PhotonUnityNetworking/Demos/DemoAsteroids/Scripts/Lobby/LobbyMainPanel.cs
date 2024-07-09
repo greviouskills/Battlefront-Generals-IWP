@@ -33,7 +33,7 @@ namespace Photon.Pun.Demo.Asteroids
 
         [Header("Inside Room Panel")]
         public GameObject InsideRoomPanel;
-
+        public GameObject LoadingPanel;
         public Button StartGameButton;
         public GameObject PlayerListEntryPrefab;
 
@@ -271,7 +271,8 @@ namespace Photon.Pun.Demo.Asteroids
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
-
+            InsideRoomPanel.SetActive(false);
+            LoadingPanel.SetActive(true);
             PhotonNetwork.LoadLevel("MainScene");
         }
 

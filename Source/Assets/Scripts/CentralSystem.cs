@@ -17,12 +17,6 @@ public class CentralSystem : MonoBehaviour
     void Start()
     {
         photonView = this.GetComponent<PhotonView>();
-        if (PhotonNetwork.IsMasterClient)
-        {
-            StartCoroutine(UpdateLoop());
-            //StartCoroutine(AttackTroops());
-        }
-        StartCoroutine(Updateresource());
     }
 
     // Update is called once per frame
@@ -37,15 +31,24 @@ public class CentralSystem : MonoBehaviour
         {
             Debug.Log("sentsync");
             yield return new WaitForSeconds(0.5f);
-
-            photonView.RPC("AttackSync", RpcTarget.AllViaServer);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC("AttackSync", RpcTarget.AllViaServer);
+            }
             yield return new WaitForSeconds(1f);
             resourcemanager.GetResources();
-            photonView.RPC("AttackSync", RpcTarget.AllViaServer);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC("AttackSync", RpcTarget.AllViaServer);
+            }
             yield return new WaitForSeconds(0.25f);
             citysync.CityTick();
             yield return new WaitForSeconds(0.25f);
-            troopsync.SendSyncData();
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                troopsync.SendSyncData();
+            }
         }
     }
 
@@ -60,5 +63,13 @@ public class CentralSystem : MonoBehaviour
         }
     }
 
-    
+    public void StartSystem()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+           
+        }
+        StartCoroutine(UpdateLoop());
+        StartCoroutine(Updateresource());
+    }
 }

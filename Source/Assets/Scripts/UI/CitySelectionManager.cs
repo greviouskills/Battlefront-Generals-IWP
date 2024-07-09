@@ -9,6 +9,7 @@ public class CitySelectionManager : MonoBehaviour
     [SerializeField] private Transform UIparent;
     [SerializeField] private CityManager mgr;
     [SerializeField] private CameraMovement cam;
+    public bool selected;
     // Start is called before the first frame update
     private PhotonView photonView;
     void Start()
@@ -33,12 +34,10 @@ public class CitySelectionManager : MonoBehaviour
         }
     }
 
-    public void SelectedCity(string cityname)
-    {
 
-    }
     public void removecity(string cityname)
     {
+        selected = true;
         photonView.RPC("RemoveCityUi", RpcTarget.AllViaServer,cityname);
         cam.ViewCity(cityname);
         UiPanel.SetActive(false);
@@ -54,6 +53,18 @@ public class CitySelectionManager : MonoBehaviour
                 Uis[i].selfdestruct();
                 Uis.RemoveAt(i);
                 break;
+            }
+        }
+    }
+
+    public void RandomSelect()
+    {
+        int target = Mathf.RoundToInt(Random.Range(0, Uis.Count-1));
+        for (int i = 0; i < Uis.Count; i++)
+        {
+            if (i == target)
+            {
+                removecity(Uis[i].targetcity);
             }
         }
     }

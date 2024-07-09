@@ -12,8 +12,8 @@ public class TroopSync : MonoBehaviour
     [SerializeField] private Transform troopparent;
     //[SerializeField] private Renderer mat;
     [SerializeField] private TerrainRecorder terrain;
+    [SerializeField] private StatusSystem status;
 
-    
     private int IDcounter = 0;
     // Start is called before the first frame update
     void Start()
@@ -60,7 +60,8 @@ public class TroopSync : MonoBehaviour
         {
             if(prefab.TroopName == troop)
             {
-                GameObject Spawn = Instantiate(prefab.gameObject, location,new Quaternion (0f, 0f, 0f, 0f), troopparent);
+                var Modloc = new Vector3(location.x + 8, 0, location.z);
+                GameObject Spawn = Instantiate(prefab.gameObject, Modloc,new Quaternion (0f, 0f, 0f, 0f), troopparent);
                 TroopScript ts = Spawn.GetComponent<TroopScript>();
                 ts.owner.ownerID = ownerID;
                 ts.owner.ownername = ownername;
@@ -69,7 +70,13 @@ public class TroopSync : MonoBehaviour
                 ts.SetColor(new Color(color.x, color.y, color.z));
                 WaterMovement wm = Spawn.GetComponent<WaterMovement>();
                 wm.terrain = terrain;
-                troops.Add(Spawn.GetComponent<TroopScript>());
+                var trooper = Spawn.GetComponent<TroopScript>();
+                troops.Add(trooper);
+                if (ownerID == playerdata.playerID)
+                {
+                    playerdata.OwnedTroops.Add(trooper);
+                }
+
             }
         }
     }
@@ -81,6 +88,8 @@ public class TroopSync : MonoBehaviour
             if(troops[i].owner.ID == troopID)
             {
                 toremove.Add(troops[i]);
+                playerdata.RemoveTroopInPlayer(troopID);
+                status.OnUpdateBar(troops[i].owner.ownername+"'s " + troops[i].TroopName + " has been wiped out!",false);
                 return true;
             }
         }
@@ -144,27 +153,60 @@ public class TroopSync : MonoBehaviour
     {
         foreach(var troop in troops)
         {
-            troop.UpdateStats();
             troop.AttackCombatants();
+        }
+        foreach (var troop in troops)
+        {
+            troop.UpdateStats();
         }
     }
 
     public void CameraCheck(Vector3 pos, float Range)
     {
-        foreach(var troop in troops)
+        if (pos.y <= 60)
         {
-            if(troop.gameObject.transform.position.x <= pos.x+ Range &&
-                troop.gameObject.transform.position.x >= pos.x - Range &&
-                troop.gameObject.transform.position.z <= pos.z + Range &&
-                troop.gameObject.transform.position.z >= pos.z - Range && 
-                pos.y <= 60)
+            foreach (var troop in troops)
             {
-                troop.SetBarActive(true);
-            }
-            else
-            {
-                troop.SetBarActive(false);
+                if (troop.gameObject.transform.position.x <= pos.x + Range &&
+                    troop.gameObject.transform.position.x >= pos.x - Range &&
+                    troop.gameObject.transform.position.z <= pos.z + Range &&
+                    troop.gameObject.transform.position.z >= pos.z - Range)
+                {
+                    troop.SetBarActive(true);
+                }
+                else
+                {
+                    troop.SetBarActive(false);
+                }
             }
         }
+    }
+    public Vector3 GetEffectiveTroopsCount()// X= playercount, Y = enemycount, Z = Totaltroopalltype;
+    {
+        int y = 0;
+        foreach (var troop in troops)
+        {
+            if (troop.Type == "Ground" && troop.TroopType != "SPAA")
+            {
+                if (troop.owner.ownerID != playerdata.playerID)
+                {
+                    y++;
+                }
+            }
+        }
+
+        return new Vector3(playerdata.OwnedTroops.Count, y, troops.Count);
+    }
+
+    public void PurgePlayerTroops(string playerID)
+    {
+        for (int i = 0; i < troops.Count; i++)
+        {
+            if (troops[i].owner.ownerID == playerID)
+            {
+                toremove.Add(troops[i]);
+            }
+        }
+        photonView.RPC("DefeatSync", RpcTarget.AllViaServer);
     }
 }
