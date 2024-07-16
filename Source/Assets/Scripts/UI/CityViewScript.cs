@@ -13,6 +13,7 @@ public class CityViewScript : MonoBehaviour
     [SerializeField] private GameObject Button,progress;
     [SerializeField] private TroopBuilderPanel builderpanel;
     [SerializeField] private Slider buildprogress;
+
     void Start()
     {
     }

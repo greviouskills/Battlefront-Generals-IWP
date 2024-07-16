@@ -38,6 +38,9 @@ public class CityScript : MonoBehaviour
     [SerializeField] private GameObject canvas;
     [SerializeField] private GameObject selectionindicator;
     [SerializeField] private Slider hpbar;
+
+    [SerializeField] private Renderer Flag;
+
     [Serializable]
     public class ResourceStats
     {
@@ -103,7 +106,7 @@ public class CityScript : MonoBehaviour
 
     public void ChangeCityOwnership(string ID,string name ,Color color)
     {
-        this.GetComponent<Renderer>().material.color = color;
+        Flag.material.color = color;
         Combatants.Clear();
         owner.ownerID = ID;
         owner.ownername = name;

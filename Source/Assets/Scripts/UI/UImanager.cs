@@ -8,13 +8,14 @@ public class UImanager : MonoBehaviour
     [SerializeField] private ResourceManager resourcemanager;
     [Header("CityView")]
     [SerializeField] private GameObject CityPanel,TroopBuilder;
-    [SerializeField] private Text Population, Cityname, Owner;
+    [SerializeField] private Text Population, Cityname, Owner, resistance;
     [Header("TroopView")]
     [SerializeField] private GameObject TroopPanel;
     [SerializeField] private Text TroopName, TroopOwner, HP, Attack, Integrity, Targets;
     [Header("ResourceView")]
     [SerializeField] private Text Money;
     [SerializeField] private Text Steel, Manpower, Oil;
+    [SerializeField] private Text SteelR, ManpowerR, OilR, MoneyR;
     [Header("Tutorial Screen")]
     [SerializeField] private List<GameObject> TutorialPanels =  new List<GameObject>();
     private int pagecount = 0;
@@ -48,7 +49,7 @@ public class UImanager : MonoBehaviour
         TroopPanel.SetActive(true);
         if (selectedcount <= 1)
         {
-            TroopName.text = "Multiple ("+selectedcount+")";
+            TroopName.text = troop.TroopName ;
             TroopOwner.text = troop.owner.ownername;
             HP.text = "HP: "+troop.Health;
             Attack.text = "Atk: " + troop.Attack;
@@ -98,6 +99,7 @@ public class UImanager : MonoBehaviour
             Cityname.text = city.gameObject.name;
             Owner.text = "Owned By: " + city.owner.ownername;
             Population.text = "Poulation: " + city.population;
+            resistance.text = "Resistance/Day: " + city.Resistance * city.population;
         }
 
     }
@@ -109,6 +111,11 @@ public class UImanager : MonoBehaviour
         Steel.text = "Steel: " + resourcemanager.steel;
         Oil.text = "Oil: " + resourcemanager.oil;
         Manpower.text = "Manpower: " + resourcemanager.manpower;
+
+        MoneyR.text = "+$" + (Mathf.RoundToInt(resourcemanager.Mrate / 100) / 10000f).ToString("F2") + " M/day";
+        SteelR.text = "+" + resourcemanager.Srate + "/day"; ;
+        OilR.text = "+" + resourcemanager.Orate + "/day"; ;
+        ManpowerR.text = "+" + resourcemanager.MPrate + "/day"; ;
 
     }
 

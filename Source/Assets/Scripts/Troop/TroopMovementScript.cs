@@ -9,9 +9,12 @@ public class TroopMovementScript : MonoBehaviour
     public bool canmove = true;
     [SerializeField] private Transform model;
     [SerializeField] private WaterMovement watermover;
+    private Rigidbody rb;
+
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         if (watermover != null)
         {
             StartCoroutine(watercheck());
@@ -32,25 +35,18 @@ public class TroopMovementScript : MonoBehaviour
                     float distance = Vector3.Distance(transform.position, targetPosition);
 
                     // Check if the unit has reached the target position
-                    if (distance > 0.1f)
+                    if (distance > 0.5f)
                     {
                         // Calculate the direction towards the target position
                         Vector3 direction = (targetPosition - transform.position).normalized;
 
-                        // Calculate the amount to move this frame based on moveSpeed and time since last frame
-                        float moveDistance = movespeed * Time.deltaTime;
-                        // Make sure the unit doesn't overshoot the target
-                        if (moveDistance > distance)
-                        {
-                            moveDistance = distance;
-                        }
-
-                        // Move the unit towards the target position
-                        transform.position += direction * moveDistance;
+                        // Set the velocity of the Rigidbody to move towards the target
+                        rb.velocity = direction * movespeed;
                     }
                     else
                     {
                         Debug.Log("destination reached");
+                        rb.velocity = Vector3.zero; // Stop the Rigidbody when destination is reached
                         Waypoints.RemoveAt(0);
                     }
                 }

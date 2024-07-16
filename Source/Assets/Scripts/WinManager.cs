@@ -60,8 +60,8 @@ public class WinManager : MonoBehaviour
         Vector3 Data = citymgr.GetCitiesCount();
         Vector3 troopdata = troops.GetEffectiveTroopsCount();
 
-        Citycounter.text = ""+Data.x;
-        Enemycounter.text = "" + Data.y;
+        Citycounter.text = "You: "+Data.x;
+        Enemycounter.text = "Enemies: " + Data.y;
         if (Data.x < 1 && troopdata.x < 1)
         {
             Defeat.SetActive(true);

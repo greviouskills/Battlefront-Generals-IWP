@@ -163,7 +163,7 @@ public class TroopSync : MonoBehaviour
 
     public void CameraCheck(Vector3 pos, float Range)
     {
-        if (pos.y <= 60)
+        if (pos.y <= 30)
         {
             foreach (var troop in troops)
             {

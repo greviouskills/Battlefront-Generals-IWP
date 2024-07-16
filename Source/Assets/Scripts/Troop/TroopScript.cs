@@ -29,8 +29,10 @@ public class TroopScript : MonoBehaviour
     public Renderer modelrenderer,boatrenderer;
     [SerializeField] private Slider HPbar;
     [SerializeField] private GameObject hpcanvas,selectionindicator;
-    [SerializeField] private ParticleSystem emitter; 
+    [SerializeField] private ParticleSystem emitter;
 
+    public bool UnderAttack;
+    private bool UnderAtkCD;
     private int combatantcount;
     [Serializable]
     private class CounterStats
@@ -137,6 +139,11 @@ public class TroopScript : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        if (!UnderAttack)
+        {
+            StartCoroutine(UnderAttackCoolD());
+        }
+        UnderAtkCD = true;
         Health -= damage;
         emitter.Play();
         if(Health <= 0)
@@ -260,5 +267,16 @@ public class TroopScript : MonoBehaviour
     {
         Selected = selected;
         selectionindicator.SetActive(selected);
+    }
+
+    IEnumerator UnderAttackCoolD()
+    {
+        UnderAttack = true;
+        while (UnderAtkCD)
+        {
+            UnderAtkCD = false;
+            yield return new WaitForSeconds(3);
+        }
+        UnderAttack = false;
     }
 }
