@@ -669,6 +669,7 @@ GameObject:
   - component: {fileID: 5120405926137134282}
   - component: {fileID: 4646777224219532458}
   - component: {fileID: 4213554456216499677}
+  - component: {fileID: 2178751462135742682}
   m_Layer: 0
   m_Name: Fortress
   m_TagString: City
@@ -822,6 +823,25 @@ MonoBehaviour:
   selectionindicator: {fileID: 6836531357973607283}
   hpbar: {fileID: 332821933463663133}
   Flag: {fileID: 8573185325058498358}
+--- !u!114 &2178751462135742682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8657231401499293750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &8802783666799232819
 GameObject:
   m_ObjectHideFlags: 0
