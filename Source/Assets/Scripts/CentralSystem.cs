@@ -13,6 +13,7 @@ public class CentralSystem : MonoBehaviour
     [SerializeField] private Text text;
     //[SerializeField] private UImanager uimanager;
     private PhotonView photonView;
+    [SerializeField] private TutorialSystem tutorial;
     // Start is called before the first frame update
     void Start()
     {
@@ -65,10 +66,8 @@ public class CentralSystem : MonoBehaviour
 
     public void StartSystem()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-           
-        }
+        tutorial.Active = true;
+        tutorial.PrimaryPanel.SetActive(true);
         StartCoroutine(UpdateLoop());
         StartCoroutine(Updateresource());
     }

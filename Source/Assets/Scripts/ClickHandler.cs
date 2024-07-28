@@ -19,10 +19,10 @@ public class ClickHandler : MonoBehaviour
     [SerializeField]
     private LineRenderer linedrawer;
     [Header("Selected Object")]
-    [SerializeField] private List<GameObject> Selected = new List<GameObject>();
+    public List<GameObject> Selected = new List<GameObject>();
     [SerializeField] private List<Vector3> waypoints = new List<Vector3>();
 
-    private string selectedOwner;
+    public string selectedOwner;
     public bool CanSpy = false;
 
     public bool SelectingWaypoint = false;

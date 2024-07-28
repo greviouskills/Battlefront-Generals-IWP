@@ -10,17 +10,22 @@ public class TutorialSystem : MonoBehaviour
     
     [Header("Tutorials")]
     [SerializeField] private List<GameObject> TutorialPanels = new List<GameObject>();
-    [SerializeField] private GameObject PrimaryPanel;
+    public GameObject PrimaryPanel;
     private int pagecount = 0;
+    public bool Active;
+    private bool running 
     void Start()
     {
         
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        if (Active)
+        {
+            TutorialProgress();
+        }
     }
     public void CloseTutorial()
     {
@@ -28,16 +33,105 @@ public class TutorialSystem : MonoBehaviour
     }
     private void RefreshPage()
     {
+
+        if (pagecount > TutorialPanels.Count)
+        {
+            CloseTutorial();
+        }
+
         if (TutorialPanels[pagecount - 1] != null) 
         {
             TutorialPanels[pagecount - 1].SetActive(false); 
         }
-        TutorialPanels[pagecount].SetActive(true);
+        if (pagecount < TutorialPanels.Count)
+        {
+            TutorialPanels[pagecount].SetActive(true);
+        }
+    }
+    void TutorialProgress()
+    {
+        switch (pagecount)
+        {
+            case 0:
+                StartCoroutine(delayskipslide(3f));
+                break;
+            case 1:
+                if (clicker.Selected.Count > 0)
+                {
+                    if (clicker.Selected[0].CompareTag("City"))
+                    {
+
+                        if (clicker.selectedOwner == player.playerID)
+                        {
+                            StartCoroutine(delayskipslide(1f));
+                        }
+                    }
+
+
+                }
+                break;
+            case 2:
+                if(player.OwnedTroops.Count >= 1)
+                {
+                    pagecount++;
+                    RefreshPage();
+                }
+                break;
+            case 3:
+                if (clicker.Selected.Count > 0)
+                {
+                    if (clicker.selectedOwner == player.playerID)
+                    {
+                        pagecount++;
+                        RefreshPage();
+                    }
+                }
+                break;
+            case 4:
+                if (player.Ownedcities.Count > 1)
+                {
+                    StartCoroutine(delayskipslide(1f));
+                }
+                break;
+            case 5:
+                StartCoroutine(delayskipslide(5f));
+                break;
+            case 6:
+                if(player.Ownedcities[0].Constructed.Count > 0)
+                {
+                    StartCoroutine(delayskipslide(1f));
+                }
+                break;
+            case 7:
+                StartCoroutine(delayskipslide(5f));
+                break;
+            case 8:
+                StartCoroutine(delayskipslide(10f));
+                break;
+            case 9:
+                StartCoroutine(delayskipslide(5f));
+                break;
+
+
+
+        }
     }
 
-    IEnumerator delayskipslide()
+    IEnumerator delayskipslide(float time)
     {
-        yield return new WaitForSeconds(5f);
-        RefreshPage();
+        if (!running)
+        {
+            running = true;
+            yield return new WaitForSeconds(time);
+            pagecount++;
+            RefreshPage();
+            if (pagecount + 1 == TutorialPanels.Count)
+            {
+                Active = false;
+            }
+            running = false;
+        }
+        
+      
     }
 }
