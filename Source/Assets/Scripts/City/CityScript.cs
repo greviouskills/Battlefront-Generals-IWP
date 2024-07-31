@@ -195,7 +195,7 @@ public class CityScript : MonoBehaviour
     public void CityIncrement()
     {
         population += (int)(population * 0.00002);
-        MHP = population / 10;
+        MHP = population * HPMulti;
         if (HP <= 0)
         {
             HP = MHP / 10;
@@ -231,7 +231,7 @@ public class CityScript : MonoBehaviour
     {
         buildprogress = 0;
         buildingconstruction = true;
-        float waittime = 90f;
+        float waittime = 30f;
         for(int i = 0; i<= waittime; i++)
         {
             yield return new WaitForSeconds(1f);

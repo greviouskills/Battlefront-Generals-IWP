@@ -57,22 +57,46 @@ public class CameraMovement : MonoBehaviour
                     transform.position = new Vector3(transform.position.x - (scrollspeed * Time.deltaTime), transform.position.y, transform.position.z);
                 }
             }
-            if (Input.GetKey(KeyCode.Equals))
-            {
-                if (transform.position.y > 7)
-                {
-                    transform.position = new Vector3(transform.position.x, transform.position.y - (zoomspeed * Time.deltaTime), transform.position.z);
-                    AddLimit(transform.position.y);
-                }
-            }
-            if (Input.GetKey(KeyCode.Minus))
-            {
+            //if (Input.GetKey(KeyCode.Equals))
+            //{
+            //    if (transform.position.y > 7)
+            //    {
+            //        transform.position = new Vector3(transform.position.x, transform.position.y - (zoomspeed * Time.deltaTime), transform.position.z);
+            //        AddLimit(transform.position.y);
+            //    }
+            //}
+            //if (Input.GetKey(KeyCode.Minus))
+            //{
 
-                if (transform.position.y < 210)
+            //    if (transform.position.y < 210)
+            //    {
+            //        transform.position = new Vector3(transform.position.x, transform.position.y + (zoomspeed * Time.deltaTime), transform.position.z);
+            //        AddLimit(transform.position.y);
+            //    }
+            //}
+            if (Input.GetAxis("Mouse ScrollWheel") != 0f) // forward
+            {
+                float Scroll = -Input.GetAxis("Mouse ScrollWheel");
+                if (transform.position.y < 210 && Scroll >0)
                 {
-                    transform.position = new Vector3(transform.position.x, transform.position.y + (zoomspeed * Time.deltaTime), transform.position.z);
-                    AddLimit(transform.position.y);
+                    transform.position = new Vector3(transform.position.x, transform.position.y + (zoomspeed * Scroll), transform.position.z);
                 }
+                else if (transform.position.y > 7 && Scroll < 0)
+                {
+                    transform.position = new Vector3(transform.position.x, transform.position.y + (zoomspeed * Scroll), transform.position.z);
+                }
+
+                if (transform.position.y > 210)
+                {
+                    transform.position = new Vector3(transform.position.x, 210, transform.position.z);
+                }
+                else
+                if (transform.position.y < 7)
+                {
+                    transform.position = new Vector3(transform.position.x, 7, transform.position.z);
+                }
+
+                AddLimit(transform.position.y);
             }
         }
         

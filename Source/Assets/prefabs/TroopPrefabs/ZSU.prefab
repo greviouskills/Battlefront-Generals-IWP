@@ -689,6 +689,7 @@ MonoBehaviour:
   hpcanvas: {fileID: 7123869712434987208}
   selectionindicator: {fileID: 157188388216424266}
   emitter: {fileID: 5403773859301895664}
+  UnderAttack: 0
 --- !u!114 &5351517835767046383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -903,7 +904,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 25}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5351517835767046381}

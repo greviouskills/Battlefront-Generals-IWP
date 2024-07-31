@@ -13,7 +13,7 @@ public class TutorialSystem : MonoBehaviour
     public GameObject PrimaryPanel;
     private int pagecount = 0;
     public bool Active;
-    private bool running 
+    private bool running;
     void Start()
     {
         
@@ -33,11 +33,6 @@ public class TutorialSystem : MonoBehaviour
     }
     private void RefreshPage()
     {
-
-        if (pagecount > TutorialPanels.Count)
-        {
-            CloseTutorial();
-        }
 
         if (TutorialPanels[pagecount - 1] != null) 
         {
@@ -127,6 +122,7 @@ public class TutorialSystem : MonoBehaviour
             RefreshPage();
             if (pagecount + 1 == TutorialPanels.Count)
             {
+                CloseTutorial();
                 Active = false;
             }
             running = false;

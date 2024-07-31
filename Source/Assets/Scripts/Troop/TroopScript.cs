@@ -204,6 +204,7 @@ public class TroopScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Troop"))
         {
+            movement.Collided = other.gameObject;
             TroopScript temp = other.gameObject.GetComponent<TroopScript>();
             if (temp.Type == TargetType && temp.owner.ownerID != owner.ownerID)
             {
@@ -213,6 +214,7 @@ public class TroopScript : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("City"))
         {
+            movement.Collided = other.gameObject;
             Debug.Log("touched city");
             CityScript temp = other.gameObject.GetComponent<CityScript>();
             if(temp.owner.ownerID != owner.ownerID && Type == "Ground")
@@ -224,11 +226,16 @@ public class TroopScript : MonoBehaviour
 
     private void OnCollisionExit(Collision other)
     {
+
         if (other.gameObject.CompareTag("City"))
         {
             Debug.Log("left city");
             CityScript temp = other.gameObject.GetComponent<CityScript>();
             removecity(temp.gameObject.name);
+        }
+        if (other.gameObject == movement.Collided)
+        {
+            movement.Collided = null;
         }
     }
 

@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 7ebdaf05254ae6f4d9376c6d8ccecd3f, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -10675,16 +10675,18 @@ MonoBehaviour:
   m_Text: 'To select cities and troops, right- click on them on the map
 
     To select
-    more than 1 unit/city, press ''Ctrl'' while selecting.
+    more than 1 unit, press ''Ctrl'' while selecting, or hold Alt while drag selecting.
 
 
-    To move troops,
-    select them and press on the map where you wish them to go. You may select waypoints
-    by holding ''Shift'' while clicking.
+    To
+    move troops, select them and press on the map where you wish them to go. You
+    may select waypoints by holding ''Shift'' while clicking.
 
 
-    To zoom in on the map, press the ''=''key
-    and to zoom out, the ''-'' key. To move around. use ''WASD''.'
+    To zoom in on
+    the map, use the Mouse Scroll
+
+    To move around, use ''WASD'''
 --- !u!222 &375096816
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16350,7 +16352,13 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Blah Blah...
+  m_Text: "Each troop is effective against another type of troop and all troops have
+    both strengths and weaknesses. \nExperiment with different troops to find out
+    which troops are the most effective to counter your opponent's strategies.\n\nTo
+    attack troops and capture troops, move your troops towards the target. \nWhen
+    attacking troops, as long as the enemy troop is within range (marked by circle),
+    it will recieve damage from your troop. \nCities however, require the troop to
+    touch them."
 --- !u!222 &611692188
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -26546,7 +26554,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Cities
+  m_Text: Cities / Structures
 --- !u!222 &1011016985
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -27909,7 +27917,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1073326841
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31281,7 +31289,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1176902985
 RectTransform:
   m_ObjectHideFlags: 0
@@ -36347,7 +36355,15 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Blah Blah...
+  m_Text: 'Resources are used to build troops.
+
+    The 4 types of resources are
+
+    Money,
+    Manpower,Oil and Steel
+
+
+    Different structures provide different resources.'
 --- !u!222 &1369141674
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -37072,7 +37088,14 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Blah Blah...
+  m_Text: "There are two types of troops. Air and Ground.\nUnits that target Air
+    cannot hit Ground targets, and units that target Ground cannot hit Air targets.
+    \n\nOnly Ground units that also target Ground units can capture cities.\n\nUnits
+    Regain their Health when they are not capturing Cities or Structures.\n\nInfantry
+    can be built on any structure, but Other troops require buildings that can only
+    be built on Towns, Cities or Forts\n\nGround Units will switch to boats when
+    they enter water. All boats have the same movement speed.\nUse this to your advantage
+    when moving very slow ground units!\n"
 --- !u!222 &1405371238
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -38499,69 +38522,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2522133003460161080, guid: 50d5b7b5727c6ea4da247c65c8456ef2, type: 3}
   m_PrefabInstance: {fileID: 1461435700}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1464393826
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1464393828}
-  - component: {fileID: 1464393827}
-  m_Layer: 0
-  m_Name: Navmesh
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1464393827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1464393826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AgentTypeID: 0
-  m_CollectObjects: 0
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_GenerateLinks: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
-  m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: ad3fa8ac3b3177340bd73e15cb145931, type: 2}
-  m_BuildHeightMesh: 0
---- !u!4 &1464393828
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1464393826}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1467589865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49871,7 +49831,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Blah Blah...
+  m_Text: "There are 6 types of structures. \nCities, Towns, Farms, Steelworks, OilRigs
+    and Forts\n\nOil Rigs Primarily produce oil, Steelworks produce steel and Farms
+    produce Money. Towns, Cities and Forts produce Manpower as well as money.\n\nOnly
+    Towns, Cities and Forts can train troops other than Infantry\n"
 --- !u!222 &1891215841
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -50680,7 +50643,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 671, y: 0}
+  m_AnchoredPosition: {x: 834, y: 0}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1919683644
@@ -54480,7 +54443,7 @@ Transform:
   m_GameObject: {fileID: 2059452838}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 6, z: 0}
+  m_LocalPosition: {x: 0, y: 6.5, z: 0}
   m_LocalScale: {x: 150, y: 1, z: 150}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56244,7 +56207,6 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1464393828}
   - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 727617739}
