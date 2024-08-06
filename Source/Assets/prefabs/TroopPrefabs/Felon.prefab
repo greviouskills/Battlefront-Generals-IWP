@@ -598,8 +598,8 @@ GameObject:
   - component: {fileID: 5351517835767046382}
   - component: {fileID: 5351517835767046383}
   - component: {fileID: 5351517835767046377}
-  - component: {fileID: 5351517835767046376}
   - component: {fileID: -3690089718062595688}
+  - component: {fileID: 2422318549653183336}
   m_Layer: 0
   m_Name: Felon
   m_TagString: Troop
@@ -707,6 +707,9 @@ MonoBehaviour:
   canmove: 1
   model: {fileID: 703634734197896351}
   watermover: {fileID: 0}
+  Collided: {fileID: 0}
+  EndTarget: 
+  fieldOfView: 90
 --- !u!54 &5351517835767046377
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -716,8 +719,8 @@ Rigidbody:
   m_GameObject: {fileID: 5351517835767046160}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Drag: 15
+  m_AngularDrag: 15
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -734,27 +737,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!65 &5351517835767046376
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5351517835767046160}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 3.047933, y: 5, z: 4.997552}
-  m_Center: {x: 0.0011241436, y: 2.5, z: -0.015617847}
 --- !u!114 &-3690089718062595688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -774,6 +756,29 @@ MonoBehaviour:
   terrain: {fileID: 0}
   changecolor: 0
   model: {fileID: 0}
+--- !u!136 &2422318549653183336
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5351517835767046160}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Height: 6
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.4761593, z: 0}
 --- !u!1 &5638117186213653624
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,7 +890,7 @@ RectTransform:
   m_GameObject: {fileID: 7123869712434987208}
   m_LocalRotation: {x: 0.6427876, y: -0, z: -0, w: 0.7660445}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6081364940256750780}

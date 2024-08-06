@@ -28,7 +28,7 @@ public class TroopSync : MonoBehaviour
 
     }
 
-    public void UpdateTroopWaypoints(string[] troopIDs, Vector3[] waypoints)
+    public void UpdateTroopWaypoints(string[] troopIDs, Vector3[] waypoints, string cityname)
     {
         foreach(var troop in troops)
         {
@@ -39,14 +39,15 @@ public class TroopSync : MonoBehaviour
                     troop.movement.Waypoints.Clear();
                     List<Vector3> temp = new List<Vector3>(waypoints);
                     troop.movement.Waypoints = temp;
+                    troop.movement.EndTarget = cityname; 
                     break;
                 }
             }
         }
     }
-    public void SendTroopWaypoints(string[] troopIDs, Vector3[] waypoints)
+    public void SendTroopWaypoints(string[] troopIDs, Vector3[] waypoints, string cityname)
     {
-        photonView.RPC("TroopMove", RpcTarget.AllViaServer, troopIDs, waypoints);
+        photonView.RPC("TroopMove", RpcTarget.AllViaServer, troopIDs, waypoints, cityname);
     }
 
     public void SendSpawnTroops(string troop,string ownername,string ownerID,Vector3 location)
@@ -60,7 +61,7 @@ public class TroopSync : MonoBehaviour
         {
             if(prefab.TroopName == troop)
             {
-                var Modloc = new Vector3(location.x + 8, 0, location.z);
+                var Modloc = new Vector3(location.x + 8+ Random.Range(0.0f, 1.0f), 0, location.z + Random.Range(-1.0f, 1.0f));
                 GameObject Spawn = Instantiate(prefab.gameObject, Modloc,new Quaternion (0f, 0f, 0f, 0f), troopparent);
                 TroopScript ts = Spawn.GetComponent<TroopScript>();
                 ts.owner.ownerID = ownerID;

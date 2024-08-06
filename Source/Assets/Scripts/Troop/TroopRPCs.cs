@@ -17,9 +17,9 @@ public class TroopRPCs : MonoBehaviour
 
     }
     [PunRPC]
-    public void TroopMove(string[] IDs, Vector3[] Waypoints)
+    public void TroopMove(string[] IDs, Vector3[] Waypoints, string Cityname)
     {
-        syncer.UpdateTroopWaypoints(IDs, Waypoints);
+        syncer.UpdateTroopWaypoints(IDs, Waypoints, Cityname);
     }
 
     [PunRPC]

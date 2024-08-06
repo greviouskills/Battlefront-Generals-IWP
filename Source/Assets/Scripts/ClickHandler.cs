@@ -22,6 +22,7 @@ public class ClickHandler : MonoBehaviour
     public List<GameObject> Selected = new List<GameObject>();
     [SerializeField] private List<Vector3> waypoints = new List<Vector3>();
 
+    private string FinalTargetCity;
     public string selectedOwner;
     public bool CanSpy = false;
 
@@ -55,6 +56,7 @@ public class ClickHandler : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit))
                 {
+                    
                     SelectWaypoint(hit);
                 }
 
@@ -175,7 +177,8 @@ public class ClickHandler : MonoBehaviour
         }
         Selected.Clear();
         waypoints.Clear();
-        linedrawer.positionCount = 0;
+        StartCoroutine(DisableLine());
+        //linedrawer.positionCount = 0;
     }
 
     private void SendTroopWP()
@@ -187,7 +190,7 @@ public class ClickHandler : MonoBehaviour
         }
         Vector3[] wps = waypoints.ToArray();
         string[] ids = troops.ToArray();
-        Sync.SendTroopWaypoints(ids,wps);
+        Sync.SendTroopWaypoints(ids,wps,FinalTargetCity);
     }
     private bool IsMouseOnUI()
     {
@@ -234,7 +237,7 @@ public class ClickHandler : MonoBehaviour
                 Selected.Add(obj);
                 troop.select(true);
                 SelectingWaypoint = true;
-                linedrawer.positionCount++;
+                linedrawer.positionCount = 1;
                 linedrawer.SetPosition(0, new Vector3(obj.transform.position.x, 4.1f, obj.transform.position.z));
             }
         }
@@ -265,6 +268,14 @@ public class ClickHandler : MonoBehaviour
         waypoints.Add(new Vector3(hit.point.x, 0, hit.point.z));
         linedrawer.positionCount += 1;
         linedrawer.SetPosition(waypoints.Count, new Vector3(waypoints[waypoints.Count - 1].x, 4.1f, waypoints[waypoints.Count - 1].z));
+        if (hit.transform.gameObject.CompareTag("City"))
+        {
+            FinalTargetCity = hit.transform.gameObject.name;
+        }
+        else
+        {
+            FinalTargetCity = ".";
+        }
         if (!Input.GetKey(KeyCode.LeftShift))
         {
             SendTroopWP();
@@ -342,6 +353,14 @@ public class ClickHandler : MonoBehaviour
             Dragger.gameObject.SetActive(false);
             dragselecting = false;
             cam.canmove = true;
+        }
+    }
+    private IEnumerator DisableLine()
+    {
+        yield return new WaitForSeconds(0.75f);
+        if (linedrawer.positionCount > 1)
+        {
+            linedrawer.positionCount = 0;
         }
     }
 

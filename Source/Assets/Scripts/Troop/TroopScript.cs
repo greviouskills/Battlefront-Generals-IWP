@@ -62,7 +62,16 @@ public class TroopScript : MonoBehaviour
     }
     private float ReturnEffectiveDamage(string target,string targettype)
     {
-        float FightingDamage = Attack/(combatantcount+CapturingCity.Count);
+        float FightingDamage = 0;
+        if (combatantcount + CapturingCity.Count == 0) 
+        {
+            FightingDamage = Attack;
+        }
+        else
+        {
+            FightingDamage = Attack / (combatantcount + CapturingCity.Count);
+        }
+       
         if (TargetType != targettype)
         {
             return 0;
@@ -75,7 +84,14 @@ public class TroopScript : MonoBehaviour
                 break;
             }
         }
-        return FightingDamage;
+        if(!float.IsNaN(FightingDamage))
+        {
+            return FightingDamage;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     private int GetNumOfActiveCombatants()
@@ -146,10 +162,11 @@ public class TroopScript : MonoBehaviour
         UnderAtkCD = true;
         Health -= damage;
         emitter.Play();
-        if(Health <= 0)
+        if(Health <= 0 || float.IsNaN(Health))
         {
             DestroySelf();
         }
+
     }
 
     private void DestroySelf()
@@ -204,10 +221,27 @@ public class TroopScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Troop"))
         {
-            movement.Collided = other.gameObject;
+            if(movement.Collided != null)
+            {
+                if (!movement.Collided.CompareTag("City"))
+                {
+                    movement.Collided = other.gameObject;
+                }
+            }
+            else
+            {
+                movement.Collided = other.gameObject;
+            }
             TroopScript temp = other.gameObject.GetComponent<TroopScript>();
             if (temp.Type == TargetType && temp.owner.ownerID != owner.ownerID)
             {
+                if(Type == "Air")
+                {
+                    if(temp.Type != Type)
+                    {
+                        return;
+                    }
+                }
                 combatlockers.Add(temp);
                 movement.canmove = false;
             }
@@ -232,6 +266,22 @@ public class TroopScript : MonoBehaviour
             Debug.Log("left city");
             CityScript temp = other.gameObject.GetComponent<CityScript>();
             removecity(temp.gameObject.name);
+        }
+        else if (other.gameObject.CompareTag("Troop"))
+        {
+            TroopScript temp = other.gameObject.GetComponent<TroopScript>();
+            for (int i = 0; i < combatlockers.Count; i++)
+            {
+                if (combatlockers[i].owner.ID == temp.owner.ID)
+                {
+                    combatlockers.RemoveAt(i);
+                    if (combatlockers.Count == 0)
+                    {
+                        movement.canmove = true;
+                    }
+                    break;
+                }
+            }
         }
         if (other.gameObject == movement.Collided)
         {
@@ -261,6 +311,16 @@ public class TroopScript : MonoBehaviour
         if(Health > MHealth)
         {
             Health = MHealth;
+        }
+        int count = 0;
+        int lockercount = combatlockers.Count;
+        for (int i = 0; i < lockercount; i++)
+        {
+            if(combatlockers[i - count] == null)
+            {
+                combatlockers.RemoveAt(i - count);
+                count ++;
+            }
         }
         StartCoroutine(Heal());
     }

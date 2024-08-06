@@ -11,6 +11,8 @@ public class TroopMovementScript : MonoBehaviour
     [SerializeField] private WaterMovement watermover;
     private Rigidbody rb;
     public GameObject Collided;
+    public string EndTarget;
+    public float fieldOfView = 90.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,30 +41,41 @@ public class TroopMovementScript : MonoBehaviour
                     {
                         if (Collided != null)
                         {
-                            if(distance > 1f)
+                            if(Collided.name != EndTarget)
                             {
-                                // Calculate the direction to move based on the position of the Collided object
-                                Vector3 directionToCollided = Collided.transform.position - transform.position;
-                                directionToCollided = directionToCollided.normalized;
 
-                                // Determine the direction to move based on the relative position
-                                if (Mathf.Abs(directionToCollided.z) > Mathf.Abs(directionToCollided.x) && directionToCollided.z > 0) // Front collision
+                                Vector3 directionToTarget = (Collided.transform.position - model.position).normalized;
+                                Vector3 forward = model.forward;
+                                Vector3 right = model.right;
+
+                                // Check if the target is in front of the object
+                                if (Vector3.Dot(forward, directionToTarget) > 0)
                                 {
-                                    rb.velocity = new Vector3(-movespeed, 0, 0); // Move left
+
+                                    // Check if the target is more on the left or right
+                                    if (Vector3.Dot(right, directionToTarget) > 0)
+                                    {
+                                        // Target is on the right side
+                                      
+
+                                        rb.velocity = -right * (movespeed * 1.5f);
+                                    }
+                                    else
+                                    {
+                                        // Target is on the left side
+
+                                        rb.velocity = right * (movespeed * 1.5f);
+                                    }
                                 }
-                                else if (Mathf.Abs(directionToCollided.z) > Mathf.Abs(directionToCollided.x) && directionToCollided.z < 0) // Back collision
+                                else
                                 {
-                                    rb.velocity = new Vector3(movespeed, 0, 0); // Move right
+                                    Vector3 direction = (targetPosition - transform.position).normalized;
+                                    Vector3 Velocity = direction * movespeed;
+                                    rb.velocity = Velocity;
                                 }
-                                else if (Mathf.Abs(directionToCollided.x) > Mathf.Abs(directionToCollided.z) && directionToCollided.x < 0) // Left collision
-                                {
-                                    rb.velocity = new Vector3(0, 0, -movespeed); // Move backward
-                                }
-                                else if (Mathf.Abs(directionToCollided.x) > Mathf.Abs(directionToCollided.z) && directionToCollided.x > 0) // Right collision
-                                {
-                                    rb.velocity = new Vector3(0, 0, movespeed); // Move forward
-                                }
+                            
                             }
+                            
                             else
                             {
                                 Vector3 direction = (targetPosition - transform.position).normalized;
